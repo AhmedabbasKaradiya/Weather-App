@@ -28,8 +28,8 @@ function App() {
             </div>
             <hr className='hr' />
             <div className="date">
-              <p>4-10-2024</p>
-              <p>Friday, 9:30 AM</p>
+              <p>5-10-2024</p>
+              <p>Friday, 10:09 AM</p>
             </div>
             <div className="location">
               <h1>Vadodara</h1>
