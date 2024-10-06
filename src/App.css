@@ -92,7 +92,7 @@
      /* border-radius: 15rem; */
 }
 
-.day {
+.date {
      margin-top: 1.5rem;
      display: flex;
      flex-direction: column;
@@ -119,4 +119,16 @@
      min-height: 70vh;
      width: 60vw;
      padding: 10px;
+}
+
+.days {
+     display: flex;
+     gap: 1rem;
+     margin: 1rem;
+}
+
+.weather-boxes {
+     display: grid;
+     grid-template-columns: repeat(3, 1fr);
+     gap: 10px;
 }

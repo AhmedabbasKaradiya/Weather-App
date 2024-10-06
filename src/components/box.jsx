@@ -5,7 +5,7 @@ const box = () => {
           <div className='boxes'>
                <div className="box">
                     <p>Wind</p>
-                    <h2>6 km/h</h2>
+                    <p>6 km/h</p>
                     <p>East</p>
                </div>
           </div>
