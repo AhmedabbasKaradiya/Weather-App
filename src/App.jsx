@@ -9,6 +9,7 @@ function App() {
   const [cityinput, setCityInput] = useState('')
   const APIKey = "47b6bc831c9a1018014f43b4bb47659d"
   const fetchData = async () => {
+    let lat, lon
     if (!cityinput) {
       return
     }
@@ -20,7 +21,23 @@ function App() {
       }
       let data = await a.json()
       setLocation(data);
-      console.log(data[0].lat, data[0].lon, data[0].name);
+      lat = data[0].lat
+      lon = data[0].lon
+      // console.log(lat, lon)
+      // console.log(data[0].lat, data[0].lon, data[0].name);
+    }
+    catch (err) {
+      console.log('Error fetching Data:', err);
+    }
+
+    try {
+      const b = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid={API key}`)
+      console.log(lat, lon)
+      if (!b.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      let response = await b.json()
+      console.log(response);
     }
     catch (err) {
       console.log('Error fetching Data:', err);
@@ -31,7 +48,6 @@ function App() {
     fetchData();
   }, [cityinput])
 
-  let city = document.getElementById('city');
   return (
     <>
       <div className="container">
