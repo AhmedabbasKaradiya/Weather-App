@@ -5,22 +5,42 @@ import './App.css'
 import Box from './components/box'
 
 function App() {
-  // const [location, setLocation] = useState([])
-  // const fetchData = async () => {
-  //   let a = await fetch("http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid={47b6bc831c9a1018014f43b4bb47659d}")
-  //   let data = await a.json()
-  //   setLocation(data);
-  //   console.log(data);
-  // }
+  const [location, setLocation] = useState([])
+  const [cityinput, setCityInput] = useState('')
+  const APIKey = "47b6bc831c9a1018014f43b4bb47659d"
+  const fetchData = async () => {
+    if (!cityinput) {
+      return
+    }
+    try {
+      const a = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityinput}  &appid=${APIKey}`)
+
+      if (!a.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      let data = await a.json()
+      setLocation(data);
+      console.log(data[0].lat, data[0].lon, data[0].name);
+    }
+    catch (err) {
+      console.log('Error fetching Data:', err);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [cityinput])
+
+  let city = document.getElementById('city');
   return (
     <>
       <div className="container">
         <div className="weather">
           <div className="first">
             <div className="relative text-gray-600">
-              <input type="search" name="serch" placeholder="Search" className="bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none" />
+              <input type="search" name="serch" placeholder="Search" className="bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none" value={cityinput} onChange={(e) => setCityInput(e.target.value)} />
               <button type="submit" className="absolute right-0 top-0 mt-3 mr-4">
-                <img src="src/assets/Images/search.png" alt="" height={"22px"}/>
+                <img src="src/assets/Images/search.png" alt="" height={"22px"} />
               </button>
             </div>
             <div className="weather-image">
