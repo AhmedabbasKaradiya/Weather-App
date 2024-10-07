@@ -7,44 +7,43 @@ import Box from './components/box'
 function App() {
   const [location, setLocation] = useState([])
   const [cityinput, setCityInput] = useState('')
-  const APIKey = "47b6bc831c9a1018014f43b4bb47659d"
-  // const ApiKey = "2fe285d33ec242298fd30014240710"
+  const options = { method: 'GET', headers: { accept: 'application/json' } };
+  const OpenWeatherAPIKey = "47b6bc831c9a1018014f43b4bb47659d"
+  const TomorrowApiKey = 'ynfNCrlq3GGKveNNuMoNginNOiESCoMY'
   const fetchData = async () => {
     let lat, lon
     if (!cityinput) {
       return
     }
     try {
-      const a = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityinput}  &appid=${APIKey}`)
-      // const a = await fetch('http://api.weatherapi.com/v1/current.json?key=${ApiKey}&q=${cityinput}&aqi=yes', { mode: 'no-cors' })
-
+      const a = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityinput}&appid=${OpenWeatherAPIKey}`)
       if (!a.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       let data = await a.json()
       setLocation(data);
+      // console.log(data)
       lat = data[0].lat
       lon = data[0].lon
-      console.log(data)
       // console.log(lat, lon)
-      // console.log(data[0].lat, data[0].lon, data[0].name);
     }
     catch (err) {
       console.log('Error fetching Data:', err);
     }
 
-    // try {
-    //   const b = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid={API key}`)
-    //   // console.log(lat, lon)
-    //   if (!b.ok) {
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    //   }
-    //   let response = await b.json()
-    //   console.log(response);
-    // }
-    // catch (err) {
-    //   console.log('Error fetching Data:', err);
-    // }
+    try {
+      const b = await fetch(`https://api.tomorrow.io/v4/weather/realtime?location=${cityinput}&apikey=${TomorrowApiKey}`, options)
+      // const b = await fetch(`https://api.tomorrow.io/v4/weather/forecast?location=${lat},${lon}&apikey=${TomorrowApiKey}`, options)
+      if (!b.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      let response = await b.json()
+      // console.log(response);
+      console.log(data[0].values.windSpeed)
+    }
+    catch (err) {
+      console.log('Error fetching Data:', err);
+    }
   }
 
   useEffect(() => {
