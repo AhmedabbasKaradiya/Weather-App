@@ -8,19 +8,21 @@ function App() {
   const [location, setLocation] = useState([])
   const [cityinput, setCityInput] = useState('')
   const options = { method: 'GET', headers: { accept: 'application/json' } };
-  const OpenWeatherAPIKey = "47b6bc831c9a1018014f43b4bb47659d"
-  const TomorrowApiKey = 'ynfNCrlq3GGKveNNuMoNginNOiESCoMY'
+  const lan_lon_APIKey = "47b6bc831c9a1018014f43b4bb47659d"
+  // const TomorrowApiKey = 'ynfNCrlq3GGKveNNuMoNginNOiESCoMY'
+  const kahmedabbas44APIKey = "8c43803fc861d3bd698eb59756c2734a"
   const fetchData = async () => {
+
     let lat, lon
     if (!cityinput) {
       return
     }
     try {
-      const a = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityinput}&appid=${OpenWeatherAPIKey}`)
-      if (!a.ok) {
+      const lan_lon_API = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityinput}&appid=${lan_lon_APIKey}`)
+      if (!lan_lon_API.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      let data = await a.json()
+      let data = await lan_lon_API.json()
       setLocation(data);
       // console.log(data)
       lat = data[0].lat
@@ -31,15 +33,28 @@ function App() {
       console.log('Error fetching Data:', err);
     }
 
+    // try {
+    //   const b = await fetch(`https://api.tomorrow.io/v4/weather/realtime?location=${cityinput}&apikey=${TomorrowApiKey}`, options)
+    //   // const b = await fetch(`https://api.tomorrow.io/v4/weather/forecast?location=${lat},${lon}&apikey=${TomorrowApiKey}`, options)
+    //   if (!b.ok) {
+    //     throw new Error(`HTTP error! status: ${response.status}`);
+    //   }
+    //   let response = await b.json()
+    //   // console.log(response);
+    //   console.log(data[0].values.windSpeed)
+    // }
+    // catch (err) {
+    //   console.log('Error fetching Data:', err);
+    // }
+
     try {
-      const b = await fetch(`https://api.tomorrow.io/v4/weather/realtime?location=${cityinput}&apikey=${TomorrowApiKey}`, options)
-      // const b = await fetch(`https://api.tomorrow.io/v4/weather/forecast?location=${lat},${lon}&apikey=${TomorrowApiKey}`, options)
-      if (!b.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      const kahmedabbas44DataAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${kahmedabbas44APIKey}`
+
+      if (!kahmedabbas44DataAPI.ok) {
+        throw new Error(`HTTP error! status: ${response.status} `);
       }
-      let response = await b.json()
-      // console.log(response);
-      console.log(data[0].values.windSpeed)
+      let kahmedabbas44Data = await kahmedabbas44DataAPI.json()
+      console.log(kahmedabbas44Data);
     }
     catch (err) {
       console.log('Error fetching Data:', err);
@@ -74,7 +89,7 @@ function App() {
               <p>Friday, 10:09 AM</p>
             </div>
             <div className="location">
-              <h1>Vadodara</h1>
+              <h1>{location[0]?.name}, {location[0]?.country}</h1>
             </div>
           </div>
           <div className="second">
